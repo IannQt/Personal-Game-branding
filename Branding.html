@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ian Jay's Life Journey — Personal Brand</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sky1:#0a0a1f;--sky2:#0f1a35;
+  --gold:#fbbf24;--blue:#38bdf8;--red:#ef4444;--green:#4ade80;
+  --card-bg:rgba(5,10,25,.97);--card-border:rgba(56,189,248,.35);
+}
+body{background:#0a0a0f;font-family:'Press Start 2P',monospace;overflow:hidden;height:100vh;user-select:none;touch-action:none;}
+
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s;}
+.screen.hidden{opacity:0;pointer-events:none;}
+
+/* ── START SCREEN ── */
+#start-screen{background:linear-gradient(160deg,#020210 0%,#070f2a 35%,#0f1a35 60%,#0a0518 100%);}
+.stars-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,2s) ease-in-out infinite alternate;}
+@keyframes twinkle{from{opacity:.03}to{opacity:var(--op,.9)}}
+
+.title-wrap{text-align:center;position:relative;z-index:2;margin-bottom:1.2rem;}
+.subtitle-pre{font-size:clamp(.34rem,1.2vw,.52rem);color:#38bdf8;letter-spacing:.3em;margin-bottom:.7rem;animation:blink 1.1s steps(1) infinite;}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+.main-title{font-size:clamp(1.5rem,5.5vw,3.2rem);color:#fff;line-height:1.25;letter-spacing:.05em;margin-bottom:.3rem;
+  text-shadow:0 0 0 #38bdf8,4px 4px 0 #0369a1,8px 8px 0 #0c4a6e;}
+.main-title .hi{color:#38bdf8;text-shadow:0 0 0 #0ea5e9,4px 4px 0 #0369a1,8px 8px 0 #0c4a6e;}
+.title-name{font-size:clamp(.5rem,2vw,.9rem);color:#fbbf24;letter-spacing:.2em;margin-bottom:.3rem;
+  text-shadow:2px 2px 0 #b45309;}
+.tagline{font-family:'Nunito',sans-serif;font-size:clamp(.75rem,1.8vw,1rem);font-weight:700;color:#64748b;letter-spacing:.08em;margin-bottom:1.4rem;}
+
+/* Stage chips */
+.journey-stages{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:.8rem 0 1.2rem;max-width:640px;position:relative;z-index:2;}
+.stage-chip{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.22);border-radius:6px;padding:.38rem .75rem;
+  font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;color:#7dd3fc;display:flex;align-items:center;gap:5px;
+  transition:all .2s;}
+.stage-chip:hover{background:rgba(56,189,248,.18);border-color:rgba(56,189,248,.55);}
+
+.start-btn{position:relative;z-index:2;background:transparent;border:2px solid #38bdf8;color:#38bdf8;
+  font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.7vw,.78rem);padding:.9rem 2.6rem;
+  cursor:pointer;letter-spacing:.1em;transition:all .2s;margin-top:.8rem;
+  animation:btnPulse 2s ease-in-out infinite;}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(56,189,248,.4)}50%{box-shadow:0 0 0 14px rgba(56,189,248,0)}}
+.start-btn:hover{background:#38bdf8;color:#0a0a1f;transform:scale(1.04);}
+
+/* Controls hint */
+.ctrl-row{position:relative;z-index:2;display:flex;gap:1.4rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;}
+.ctrl-item{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+.ctrl-key{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:4px;
+  padding:.28rem .6rem;font-size:.38rem;color:#cbd5e1;letter-spacing:.06em;}
+.ctrl-desc{font-size:.33rem;color:#475569;}
+
+/* Presentation badge */
+.pres-badge{position:absolute;top:1rem;right:1rem;z-index:5;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.4);
+  border-radius:6px;padding:.4rem .8rem;font-size:.35rem;color:#fbbf24;letter-spacing:.1em;cursor:pointer;transition:all .2s;}
+.pres-badge:hover{background:rgba(251,191,36,.2);}
+
+/* ── HUD ── */
+#hud{position:fixed;top:0;left:0;right:0;z-index:10;display:none;justify-content:space-between;align-items:center;
+  padding:.45rem .9rem;background:linear-gradient(180deg,rgba(0,0,0,.88) 0%,transparent 100%);gap:.4rem;}
+.hud-box{background:rgba(0,0,0,.65);border:1px solid rgba(56,189,248,.2);border-radius:6px;
+  padding:.3rem .6rem;display:flex;flex-direction:column;gap:2px;min-width:68px;}
+.hud-label{font-size:.28rem;color:#64748b;letter-spacing:.15em;text-transform:uppercase;}
+.hud-val{font-size:.54rem;color:#38bdf8;}
+.hud-hearts{display:flex;gap:3px;}
+.heart{font-size:.72rem;transition:all .3s;display:inline-block;}
+.heart.lost{opacity:.13;filter:grayscale(1);}
+.heart.shake{animation:heartShake .3s ease-out;}
+@keyframes heartShake{0%,100%{transform:scale(1)}30%{transform:scale(1.6) rotate(-15deg)}60%{transform:scale(.8)}}
+.stage-dots{display:flex;gap:4px;align-items:center;}
+.sdot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);transition:all .4s;}
+.sdot.done{background:#38bdf8;border-color:#38bdf8;box-shadow:0 0 6px #38bdf8;}
+.sdot.active{background:#fbbf24;border-color:#fbbf24;animation:sdotBlink .7s ease-in-out infinite alternate;}
+@keyframes sdotBlink{from{box-shadow:0 0 4px #fbbf24}to{box-shadow:0 0 16px #fbbf24}}
+
+/* Milestone counter badge */
+#milestone-badge{position:fixed;top:.45rem;left:50%;transform:translateX(-50%);z-index:15;display:none;
+  background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);border-radius:20px;
+  padding:.28rem .8rem;font-size:.36rem;color:#fbbf24;letter-spacing:.12em;white-space:nowrap;}
+
+/* ── STAGE INTRO ── */
+#stage-intro{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;}
+.si-box{border:2px solid #38bdf8;border-radius:14px;padding:1.8rem 2.2rem;text-align:center;max-width:min(440px,90vw);
+  background:var(--card-bg);animation:popIn .45s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 60px rgba(56,189,248,.15);}
+@keyframes popIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.si-num{font-size:.42rem;color:#38bdf8;letter-spacing:.22em;margin-bottom:.5rem;}
+.si-icon{font-size:2.8rem;margin-bottom:.55rem;display:block;}
+.si-title{font-size:clamp(.65rem,2.3vw,.95rem);color:#fff;margin-bottom:.7rem;line-height:1.5;}
+.si-desc{font-family:'Nunito',sans-serif;font-size:.9rem;color:#94a3b8;line-height:1.75;margin-bottom:.9rem;}
+.si-skills{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:.9rem;}
+.si-skill{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:800;background:rgba(56,189,248,.1);
+  border:1px solid rgba(56,189,248,.3);color:#7dd3fc;padding:3px 11px;border-radius:20px;}
+.si-obs{font-size:.36rem;color:#ef4444;letter-spacing:.1em;margin-bottom:.8rem;padding:.4rem .6rem;
+  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:6px;display:inline-block;}
+.si-tip{font-size:.34rem;color:#fbbf24;letter-spacing:.1em;margin-bottom:.8rem;}
+.si-btn{background:#38bdf8;border:none;color:#0a0a1f;font-family:'Press Start 2P',monospace;
+  font-size:.52rem;padding:.7rem 1.6rem;cursor:pointer;border-radius:5px;transition:all .15s;}
+.si-btn:hover{background:#7dd3fc;transform:scale(1.04);}
+
+/* ── MILESTONE POPUP ── */
+#milestone-popup{position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;}
+.mp-box{border:2px solid #fbbf24;border-radius:14px;padding:1.8rem 2.2rem;text-align:center;max-width:min(420px,90vw);
+  background:var(--card-bg);animation:popIn .38s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 60px rgba(251,191,36,.18);}
+.mp-unlocked{font-size:.36rem;letter-spacing:.22em;color:#fbbf24;margin-bottom:.4rem;}
+.mp-icon{font-size:2.8rem;margin-bottom:.5rem;display:block;}
+.mp-title{font-family:'Orbitron',sans-serif;font-size:clamp(.65rem,2.5vw,.95rem);font-weight:900;color:#fff;margin-bottom:.5rem;line-height:1.4;}
+.mp-body{font-family:'Nunito',sans-serif;font-size:.88rem;color:#94a3b8;line-height:1.7;margin-bottom:.8rem;}
+.mp-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:.9rem;}
+.mp-tag{font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;background:rgba(251,191,36,.1);
+  border:1px solid rgba(251,191,36,.32);color:#fbbf24;padding:2px 10px;border-radius:20px;}
+.mp-count{font-size:.35rem;color:#64748b;margin-bottom:.6rem;}
+.mp-btn{background:#fbbf24;border:none;color:#0a0a1f;font-family:'Press Start 2P',monospace;
+  font-size:.5rem;padding:.65rem 1.5rem;cursor:pointer;border-radius:5px;transition:all .15s;}
+.mp-btn:hover{background:#fde68a;transform:scale(1.04);}
+
+/* ── PRESENTATION GUIDE OVERLAY ── */
+#pres-overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;}
+.pres-box{border:2px solid #fbbf24;border-radius:14px;padding:2rem 2.4rem;max-width:min(580px,92vw);
+  background:var(--card-bg);animation:popIn .4s ease-out;max-height:90vh;overflow-y:auto;}
+.pres-title{font-family:'Orbitron',sans-serif;font-size:clamp(.65rem,2.2vw,.9rem);color:#fbbf24;
+  margin-bottom:1.2rem;text-align:center;letter-spacing:.08em;}
+.pres-section{margin-bottom:1.2rem;}
+.pres-head{font-size:.38rem;color:#38bdf8;letter-spacing:.15em;margin-bottom:.5rem;}
+.pres-text{font-family:'Nunito',sans-serif;font-size:.85rem;color:#cbd5e1;line-height:1.8;}
+.pres-quote{background:rgba(56,189,248,.07);border-left:3px solid #38bdf8;padding:.6rem .9rem;
+  border-radius:0 6px 6px 0;margin:.5rem 0;font-family:'Nunito',sans-serif;font-size:.85rem;
+  color:#7dd3fc;line-height:1.7;font-style:italic;}
+.pres-close{background:#fbbf24;border:none;color:#0a0a1f;font-family:'Press Start 2P',monospace;
+  font-size:.48rem;padding:.65rem 1.5rem;cursor:pointer;border-radius:5px;display:block;margin:1rem auto 0;transition:all .15s;}
+.pres-close:hover{background:#fde68a;}
+
+/* ── PARTICLES & FLOATS ── */
+.float-score{position:fixed;z-index:25;pointer-events:none;font-family:'Press Start 2P',monospace;
+  font-size:.65rem;color:#fbbf24;animation:floatUp .9s ease-out forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
+
+#screen-flash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;transition:opacity .08s;}
+
+/* ── STAGE CLEAR BANNER ── */
+#stage-clear-banner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:28;
+  background:var(--card-bg);border:2px solid #38bdf8;border-radius:12px;padding:1.4rem 2.2rem;
+  text-align:center;pointer-events:none;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+  box-shadow:0 0 50px rgba(56,189,248,.2);}
+#stage-clear-banner.show{transform:translate(-50%,-50%) scale(1);}
+#stage-clear-banner.hide{opacity:0;}
+.scb-title{font-size:clamp(.6rem,2vw,.9rem);color:#38bdf8;margin-bottom:.4rem;}
+.scb-sub{font-family:'Nunito',sans-serif;font-size:.95rem;color:#94a3b8;margin-top:.3rem;}
+.scb-score{font-size:.55rem;color:#fbbf24;margin-top:.5rem;}
+
+/* ── END SCREEN ── */
+#end-screen{background:linear-gradient(160deg,#020210,#050d1a,#080518);}
+.end-ribbon{border:2px solid #fbbf24;padding:.75rem 2rem;margin-bottom:1.2rem;text-align:center;
+  box-shadow:0 0 30px rgba(251,191,36,.1);}
+.end-title{font-size:clamp(.75rem,3vw,1.5rem);color:#fbbf24;letter-spacing:.05em;}
+.end-score-row{display:flex;gap:.7rem;margin-bottom:1.2rem;flex-wrap:wrap;justify-content:center;}
+.esb{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;
+  padding:.65rem 1rem;text-align:center;min-width:88px;}
+.esb-num{font-size:.95rem;color:#38bdf8;}
+.esb-label{font-size:.32rem;color:#475569;margin-top:.3rem;letter-spacing:.1em;}
+.end-sub{font-family:'Nunito',sans-serif;font-size:.9rem;color:#64748b;margin-bottom:1rem;
+  line-height:1.9;text-align:center;max-width:460px;}
+.unlocked-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.2rem;max-width:520px;}
+.ul-chip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.28);border-radius:6px;
+  padding:.38rem .8rem;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;color:#7dd3fc;
+  display:flex;align-items:center;gap:.3rem;}
+.end-btns{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;}
+.end-btn{background:transparent;border:2px solid #38bdf8;color:#38bdf8;font-family:'Press Start 2P',monospace;
+  font-size:.5rem;padding:.62rem 1.3rem;cursor:pointer;border-radius:5px;transition:all .15s;}
+.end-btn:hover{background:#38bdf8;color:#0a0a1f;}
+.end-btn.gold{border-color:#fbbf24;color:#fbbf24;}
+.end-btn.gold:hover{background:#fbbf24;color:#0a0a1f;}
+.end-btn.pres{border-color:#a78bfa;color:#a78bfa;}
+.end-btn.pres:hover{background:#a78bfa;color:#0a0a1f;}
+
+/* ── MOBILE JUMP BTN ── */
+#jump-btn{display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:15;width:68px;height:68px;
+  border-radius:50%;background:rgba(56,189,248,.18);border:2px solid rgba(56,189,248,.5);
+  color:#38bdf8;font-family:'Press Start 2P',monospace;font-size:.55rem;cursor:pointer;
+  align-items:center;justify-content:center;text-align:center;line-height:1.3;
+  touch-action:none;}
+#jump-btn:active{background:rgba(56,189,248,.4);}
+@media(max-width:700px){#jump-btn{display:flex;}}
+
+/* Combo display */
+#combo-display{position:fixed;right:1rem;top:50%;transform:translateY(-50%);z-index:12;
+  display:none;text-align:center;pointer-events:none;}
+.combo-num{font-size:clamp(.7rem,2.5vw,1.1rem);color:#fbbf24;text-shadow:2px 2px 0 #b45309;
+  animation:comboPop .3s ease-out;}
+.combo-label{font-size:.3rem;color:#94a3b8;letter-spacing:.15em;}
+@keyframes comboPop{from{transform:scale(1.6)}to{transform:scale(1)}}
+
+/* Milestone arrow indicator */
+#milestone-arrow{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:12;display:none;
+  background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);border-radius:8px 0 0 8px;
+  padding:.5rem .55rem;pointer-events:none;animation:arrowPulse 1s ease-in-out infinite alternate;}
+@keyframes arrowPulse{from{background:rgba(251,191,36,.1)}to{background:rgba(251,191,36,.3)}}
+.arrow-icon{font-size:1.2rem;}
+.arrow-label{font-size:.28rem;color:#fbbf24;letter-spacing:.08em;text-align:center;margin-top:.2rem;}
+
+/* Game canvas */
+#game-wrap{position:fixed;inset:0;z-index:1;}
+#gameCanvas{display:block;width:100%;height:100%;}
+
+/* ── HOW TO PLAY BUTTON ── */
+.how-to-play-btn{position:relative;z-index:2;background:transparent;border:2px solid #4ade80;color:#4ade80;
+  font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.5vw,.7rem);padding:.75rem 2rem;
+  cursor:pointer;letter-spacing:.1em;transition:all .2s;margin-top:.8rem;margin-bottom:.8rem;
+  animation:btnPulseGreen 2s ease-in-out infinite;}
+@keyframes btnPulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 14px rgba(74,222,128,0)}}
+.how-to-play-btn:hover{background:#4ade80;color:#0a0a1f;transform:scale(1.04);}
+
+/* ── HOW TO PLAY MODAL ── */
+#how-to-play-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;}
+.htp-box{border:2px solid #4ade80;border-radius:14px;padding:2rem 2.4rem;max-width:min(580px,92vw);
+  background:var(--card-bg);animation:popIn .4s ease-out;max-height:90vh;overflow-y:auto;}
+.htp-title{font-family:'Orbitron',sans-serif;font-size:clamp(.65rem,2.2vw,.9rem);color:#4ade80;
+  margin-bottom:1.2rem;text-align:center;letter-spacing:.08em;}
+.htp-section{margin-bottom:1.2rem;}
+.htp-head{font-size:.38rem;color:#38bdf8;letter-spacing:.15em;margin-bottom:.5rem;}
+.htp-text{font-family:'Nunito',sans-serif;font-size:.85rem;color:#cbd5e1;line-height:1.8;}
+.htp-tip{background:rgba(74,222,128,.07);border-left:3px solid #4ade80;padding:.6rem .9rem;
+  border-radius:0 6px 6px 0;margin:.5rem 0;font-family:'Nunito',sans-serif;font-size:.85rem;
+  color:#86efac;line-height:1.7;}
+.htp-close{background:#4ade80;border:none;color:#0a0a1f;font-family:'Press Start 2P',monospace;
+  font-size:.48rem;padding:.65rem 1.5rem;cursor:pointer;border-radius:5px;display:block;margin:1rem auto 0;transition:all .15s;}
+.htp-close:hover{background:#86efac;}
+</style>
+</head>
+<body>
+
+<div id="screen-flash"></div>
+
+<!-- STAGE CLEAR BANNER -->
+<div id="stage-clear-banner">
+  <div class="scb-title" id="scb-title">STAGE CLEAR! ★</div>
+  <div class="scb-sub" id="scb-sub">Well done!</div>
+  <div class="scb-score" id="scb-score"></div>
+</div>
+
+<!-- MILESTONE ARROW INDICATOR -->
+<div id="milestone-arrow">
+  <div class="arrow-icon">⭐</div>
+  <div class="arrow-label">STAR<br>AHEAD</div>
+</div>
+
+<!-- ══ START SCREEN ══ -->
+<div class="screen" id="start-screen">
+  <div class="stars-bg" id="stars-bg"></div>
+  <button class="pres-badge" onclick="showPresGuide()">📋 ABOUT THE GAME</button>
+  <div class="title-wrap">
+    <div class="subtitle-pre">▶ PRESS START ◀</div>
+    <div class="main-title">IAN'S<br><span class="hi">LIFE JOURNEY</span></div>
+    <div class="title-name">— IAN JAY KYLE D. TIPANERO —</div>
+    <div class="tagline">A Personal Brand · Told Through a Game</div>
+  </div>
+  <div class="journey-stages">
+    <div class="stage-chip">🏠 Childhood Life</div>
+    <div class="stage-chip">📚 High School Life</div>
+    <div class="stage-chip">💻 College / CSPC</div>
+    <div class="stage-chip">🎨 Hobbies & Skills</div>
+    <div class="stage-chip">🚀 Internship & Future</div>
+  </div>
+  <button class="start-btn" onclick="startGame()">▶ &nbsp; BEGIN JOURNEY &nbsp; ◀</button>
+  <button class="how-to-play-btn" onclick="showHowToPlay()">❓ &nbsp; HOW TO PLAY &nbsp; ❓</button>
+  <div class="ctrl-row">
+    <div class="ctrl-item"><div class="ctrl-key">SPACE / ↑ / TAP</div><div class="ctrl-desc">Jump</div></div>
+    <div class="ctrl-item"><div class="ctrl-key">DOUBLE JUMP</div><div class="ctrl-desc">Jump again mid-air</div></div>
+    <div class="ctrl-item"><div class="ctrl-key">⭐ MILESTONE STAR</div><div class="ctrl-desc">Touch to unlock story</div></div>
+    <div class="ctrl-item"><div class="ctrl-key">🪙 COIN</div><div class="ctrl-desc">+10 pts each</div></div>
+  </div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="game-wrap" style="display:none"><canvas id="gameCanvas"></canvas></div>
+
+<!-- ══ HUD ══ -->
+<div id="hud">
+  <div class="hud-box"><div class="hud-label">Score</div><div class="hud-val" id="hud-score">000000</div></div>
+  <div class="hud-box" style="align-items:center"><div class="hud-label">Journey</div><div class="stage-dots" id="stage-dots"></div></div>
+  <div class="hud-box" style="align-items:center"><div class="hud-label">Stage</div><div class="hud-val" id="hud-stage">1/5</div></div>
+  <div class="hud-box" style="align-items:center"><div class="hud-label">Stars</div><div class="hud-val" id="hud-stars">0/5</div></div>
+  <div class="hud-box" style="align-items:flex-end"><div class="hud-label">Lives</div><div class="hud-hearts" id="hud-hearts"></div></div>
+</div>
+<div id="milestone-badge">⭐ MILESTONE STAR INCOMING!</div>
+
+<!-- Mobile jump button -->
+<button id="jump-btn" ontouchstart="handleJumpBtn(event)">JUMP<br>▲</button>
+
+<!-- ══ STAGE INTRO ══ -->
+<div id="stage-intro" style="display:none;align-items:center;justify-content:center;">
+  <div class="si-box">
+    <div class="si-num" id="si-num">STAGE 1 OF 5</div>
+    <span class="si-icon" id="si-icon">🏠</span>
+    <div class="si-title" id="si-title">Childhood</div>
+    <div class="si-desc" id="si-desc"></div>
+    <div class="si-skills" id="si-skills"></div>
+    <div class="si-obs" id="si-obs"></div>
+    <div class="si-tip" id="si-tip"></div>
+    <button class="si-btn" onclick="dismissIntro()">▶ LET'S GO!</button>
+  </div>
+</div>
+
+<!-- ══ MILESTONE POPUP ══ -->
+<div id="milestone-popup" style="display:none;align-items:center;justify-content:center;">
+  <div class="mp-box">
+    <div class="mp-unlocked">✦ MILESTONE UNLOCKED ✦</div>
+    <span class="mp-icon" id="mp-icon">⭐</span>
+    <div class="mp-title" id="mp-title"></div>
+    <div class="mp-body" id="mp-body"></div>
+    <div class="mp-tags" id="mp-tags"></div>
+    <div class="mp-count" id="mp-count"></div>
+    <button class="mp-btn" onclick="dismissMilestone()">▶ CONTINUE</button>
+  </div>
+</div>
+
+<!-- ══ HOW TO PLAY MODAL ══ -->
+<div id="how-to-play-modal" style="display:none;align-items:center;justify-content:center;">
+  <div class="htp-box">
+    <div class="htp-title">❓ HOW TO PLAY ❓</div>
+    <div class="htp-section">
+      <div class="htp-head">OBJECTIVE</div>
+      <div class="htp-text">Jump through 5 stages of life journey, avoid obstacles, collect coins and stars to unlock milestones!</div>
+    </div>
+    <div class="htp-section">
+      <div class="htp-head">🎮 CONTROLS</div>
+      <div class="htp-tip"><strong>JUMP:</strong> Press SPACE, UP Arrow, or TAP the screen to jump!</div>
+      <div class="htp-tip"><strong>DOUBLE JUMP:</strong> Press the jump button again while in mid-air for a higher jump!</div>
+    </div>
+    <div class="htp-section">
+      <div class="htp-head">🪙 COINS</div>
+      <div class="htp-text">Collect golden coins throughout each stage. Each coin gives you <strong>+10 points</strong>. Collect multiple coins in a row to build a combo multiplier!</div>
+    </div>
+    <div class="htp-section">
+      <div class="htp-head">⭐ MILESTONE STARS</div>
+      <div class="htp-text">Find and touch the milestone stars to unlock special moments from each life stage. There are 5 stars total — one for each stage. Collecting all stars reveals the complete story!</div>
+    </div>
+    <div class="htp-section">
+      <div class="htp-head">⚠️ OBSTACLES</div>
+      <div class="htp-text">Avoid obstacles and hazards in your path! Each hit costs you one life. <strong>You start with 100 lives</strong> in this sample version. Game over when lives reach 0.</div>
+    </div>
+    <div class="htp-section">
+      <div class="htp-head">📊 PROGRESSION</div>
+      <div class="htp-text">There are <strong>5 stages</strong> to complete, each representing a chapter of life. Clear all obstacles and reach the end of each stage to progress. Can you beat all 5?</div>
+    </div>
+    <button class="htp-close" onclick="closeHowToPlay()">✓ GOT IT!</button>
+  </div>
+</div>
+
+<!-- ══ PRESENTATION GUIDE ══ -->
+<div id="pres-overlay" style="display:none;align-items:center;justify-content:center;">
+  <div class="pres-box">
+    <div class="pres-title">📋 About this game</div>
+    <div class="pres-section">
+      <div class="pres-head">WHAT THIS IS</div>
+      <div class="pres-text">This is an interactive game that tells the story of who I am — Ian Jay Kyle D. Tipanero. Each of the 5 stages represents a real chapter of my life, and every milestone star you collect reveals a true personal achievement. It's not just a game; it's my personal brand in interactive form.</div>
+    </div>
+    <div class="pres-section">
+     
+      <div class="pres-quote">"Instead of a pesonal product branding, I built something a little different — a game that tells you who I am. Each stage is a real chapter of my life. Let me walk you through it."</div>
+    </div>
+    <div class="pres-section">
+      <div class="pres-head">STAGE BY STAGE TALKING POINTS</div>
+      <div class="pres-text">
+        🏠 <b>Stage 1 – Childhood Life:</b> "I grew up in Camarines Sur. The province taught me to be resourceful and curious — both skills I still use in IT today."<br><br>
+        📚 <b>Stage 2 – High School Life:</b> "This is where I first touched technology. Joining the tech club showed me that building things digitally was what I wanted to do."<br><br>
+        💻 <b>Stage 3 – College at CSPC:</b> "I'm currently a 4th-year IT student. I've learned HTML, CSS, JS, React, MySQL, Git, and UI/UX design — basically full-stack."<br><br>
+        🎨 <b>Stage 4 – Hobbies & Skills:</b> "Beyond code I also do graphic design, photography, playing instrument, and exploring new places. My creative hobbies make my technical work stand out visually."<br><br>
+        🚀 <b>Stage 5 – Internship & Future:</b> "Right now I'm applying everything as an IT intern. I also take freelance design and web commissions. My goal is to be a full creative technologist."
+      </div>
+    </div>
+    <div class="pres-section">
+      <div class="pres-head">WHY A GAME?</div>
+      <div class="pres-quote">"I designed it as a game because gaming is part of who I am — it sharpened my eye for design and user experience. This game itself is proof that I can code, design, and tell a story all at once."</div>
+    </div>
+    <div class="pres-section">
+      <div class="pres-head">EXPERIENCE</div>
+      <div class="pres-quote">"Every obstacle in the game — the bugs, the deadlines, the creative blocks — those are real challenges I've faced and overcome. I'm still running, still jumping, and still collecting milestones. Thank you!"</div>
+    </div>
+    <button class="pres-close" onclick="closePresGuide()">✕ CLOSE GUIDE</button>
+  </div>
+</div>
+
+<!-- ══ END SCREEN ══ -->
+<div class="screen hidden" id="end-screen">
+  <div class="end-ribbon"><div class="end-title" id="end-title">JOURNEY COMPLETE</div></div>
+  <div class="end-score-row">
+    <div class="esb"><div class="esb-num" id="end-score-val">0</div><div class="esb-label">Final Score</div></div>
+    <div class="esb"><div class="esb-num" id="end-dist-val">0m</div><div class="esb-label">Distance</div></div>
+    <div class="esb"><div class="esb-num" id="end-ms-val">0/5</div><div class="esb-label">Milestones</div></div>
+    <div class="esb"><div class="esb-num" id="end-stg-val">1/5</div><div class="esb-label">Stages</div></div>
+    <div class="esb"><div class="esb-num" id="end-coins-val">0</div><div class="esb-label">Coins</div></div>
+  </div>
+  <div class="end-sub" id="end-sub"></div>
+  <div class="unlocked-grid" id="unlocked-summary"></div>
+  <div class="end-btns">
+    <button class="end-btn gold" onclick="startGame()">▶ PLAY AGAIN</button>
+    <button class="end-btn pres" onclick="showPresGuide()">📋 PRESENT</button>
+    <button class="end-btn" onclick="showStart()">⌂ MENU</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   STAGE DATA
+══════════════════════════════════════════ */
+const STAGES = [
+  {
+    id:1, icon:'🏠', name:'Childhood Life in Camarines Sur',
+    desc:'Born and raised in the province of Camarines Sur, Philippines. Growing up fueled curiosity, creativity, and a deep love for games and stories. Every great journey starts somewhere — and Ian\'s started here among the coconut trees and cool sea breeze.',
+    skills:['Curiosity','Creativity','Resilience','Storytelling','Resourcefulness'],
+    obs:'⚠ WATCH OUT FOR: Rocks & Rain puddles',
+    tip:'💡 TIP: Double-jump over tall rocks!',
+    bgTop:'#061505', bgBot:'#0f2a10', groundColor:'#2d5a1b', groundTop:'#56c249',
+    skyTop:'#a8d8a8', skyBot:'#c8e6c9',
+    obstacles:['rock','rock','puddle','rock','puddle'],
+    obstacleGap:520,
+    stageLen:2200, milestoneAt:1300,
+    milestone:{icon:'🏡',title:'Roots from Camarines Sur',
+      body:'Ian grew up in the province — where simplicity sparked big imagination. His childhood love for games and exploration laid the foundation for a future in tech and design. Every great creator has an origin story.',
+      tags:['Province Life','Curiosity','Imagination','Grit']},
+    musicColor:'#4caf50'
+  },
+  {
+    id:2, icon:'📚', name:'High School Life',
+    desc:'Studying hard, joining tech clubs, discovering design through drawing, and first touching a keyboard. This is where Ian fell in love with technology and realized building things digitally was his calling.',
+    skills:['Discipline','Design Thinking','Tech Clubs','Teamwork'],
+    obs:'⚠ WATCH OUT FOR: Flying erasers & failing test papers',
+    tip:'💡 TIP: Papers fly low — stay close to ground!',
+    bgTop:'#070a20', bgBot:'#0e1540', groundColor:'#1a237e', groundTop:'#4255c4',
+    skyTop:'#0d1235', skyBot:'#182050',
+    obstacles:['eraser','paper','eraser','paper','eraser'],
+    obstacleGap:490,
+    stageLen:2200, milestoneAt:1300,
+    milestone:{icon:'📖',title:'First Touch of Technology',
+      body:'High school opened Ian\'s eyes to computers and design. He joined the tech club, picked up a pencil and a mouse, and realized that creating digitally was his true calling — the spark that set everything in motion.',
+      tags:['Academic Excellence','Tech Club','Design Spark']},
+    musicColor:'#3949ab'
+  },
+  {
+    id:3, icon:'💻', name:'College Life at CSPC',
+    desc:'4th year IT student at Camarines Sur Polytechnic Colleges — aspiring web developer, UI/UX designer, and graphic designer. This is where code meets creativity for Ian. Late nights, hackathons, and real projects.',
+    skills:['HTML/CSS/JS','React','MySQL','Git','UI/UX Design','Canva','Bootstrap'],
+    obs:'⚠ WATCH OUT FOR: Code bugs & submission deadlines',
+    tip:'💡 TIP: Bugs are random height — always be ready to jump!',
+    bgTop:'#0c0720', bgBot:'#160e3a', groundColor:'#3d006a', groundTop:'#7c22b2',
+    skyTop:'#0a0520', skyBot:'#1a0c40',
+    obstacles:['bug','deadline','bug','deadline','bug'],
+    obstacleGap:460,
+    stageLen:2200, milestoneAt:1300,
+    milestone:{icon:'💻',title:'Full-Stack Developer & Designer',
+      body:'HTML, CSS, JavaScript, React, MySQL, Git, Canva — Ian commands the full stack. He can build from wireframe to deployed product, owning every layer of the process. Code + Design = complete builder.',
+      tags:['Web Dev','React','MySQL','Git','UI/UX','Full-Stack']},
+    musicColor:'#7b1fa2'
+  },
+  {
+    id:4, icon:'🎨', name:'Hobbies & Skills Unlocked',
+    desc:'Beyond code — Ian is a graphic designer, and passionate gamer. His creative hobbies directly fuel his professional work, giving him a unique visual edge that separates him from the average developer.',
+    skills:['Graphic Design','Photography','Gaming','Playing Instrument','Content Creation', 'Exploring New Places'],
+    obs:'⚠ WATCH OUT FOR: Creative blocks ',
+    tip:'💡 TIP: Blocks are wide — jump early and high!',
+    bgTop:'#1a0600', bgBot:'#3d1205', groundColor:'#bf360c', groundTop:'#f4511e',
+    skyTop:'#0f0300', skyBot:'#2d0800',
+    obstacles:['block','block','revision','block'],
+    obstacleGap:460,
+    stageLen:2200, milestoneAt:1300,
+    milestone:{icon:'🎨',title:'Web Developer & Graphic Designer',
+      body:'Ian is genuinely rare — he can both code AND design. With Canva, photography, and an eye sharpened by years of gaming, he builds digital products that look as great as they perform.',
+      tags:['Canva','Photography','Graphic Design','Gaming','Unique Edge']},
+    musicColor:'#e64a19'
+  },
+  {
+    id:5, icon:'🚀', name:'Internship & The Future',
+    desc:'Currently an IT Intern doing real web and design work for real clients. Ian takes web commissions . His goal: build his personal brand and become a complete creative technologist.',
+    skills:['IT Internship','Web Commissions','Personal Brand','Full-Stack Dev','Client Work'],
+    obs:'⚠ WATCH OUT FOR: Client revisions & impossible deadlines',
+    tip:'💡 TIP: This is the hardest stage — stay focused!',
+    bgTop:'#00090f', bgBot:'#001828', groundColor:'#0a2a45', groundTop:'#1565c0',
+    skyTop:'#000408', skyBot:'#00101c',
+    obstacles:['revision','deadline','revision','bug','deadline'],
+    obstacleGap:460,
+    stageLen:2600, milestoneAt:1300,
+    milestone:{icon:'🚀',title:'Ian — Personal Brand Achieved!',
+      body:'IT Intern. Freelance Web & Graphic Designer . Web developer. Gamer. Ian Jay Kyle D. Tipanero is not just a student — he\'s a complete creative technologist building his future one commit at a time.',
+      tags:['IT Intern','Freelance','Personal Brand','Future','Creative Technologist']},
+    musicColor:'#1565c0'
+  }
+];
+
+/* ══════════════════════════════════════════
+   CANVAS
+══════════════════════════════════════════ */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+let W,H,GY,SCALE;
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  GY = H * 0.76;
+  SCALE = Math.min(W/900, H/500);
+}
+window.addEventListener('resize',()=>{ resize(); if(gameRunning) P.y = GY-P.h; });
+resize();
+
+/* Stars for start screen */
+const starsBg = document.getElementById('stars-bg');
+for(let i=0;i<200;i++){
+  const s=document.createElement('div'); s.className='star-dot';
+  const sz=Math.random()*2.5+.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${1.5+Math.random()*3.5}s;--op:${.25+Math.random()*.75};animation-delay:${Math.random()*5}s`;
+  starsBg.appendChild(s);
+}
+
+/* ══════════════════════════════════════════
+   GAME STATE
+══════════════════════════════════════════ */
+let gameRunning=false, gameState='idle';
+let score=0, lives=100, frame=0, distance=0, speed=0;
+let currentStage=0, stageProgress=0;
+let obstacles=[], stars=[], particles=[], floatTexts=[], coins=[];
+let bgOffset=0, nextObs=0, nextCoin=0;
+let transitioning=false;
+let totalMilestones=0;
+let milestonesGot=[false,false,false,false,false];
+let milestonePlaced=false;   // star has been spawned this stage
+let milestoneCollected=false;// star was collected (no need to respawn)
+let milestoneRespawnTimer=0; // countdown before respawn
+let milestoneVisible=false;  // star is currently on screen
+let raf;
+let coinCount=0;
+let comboCount=0, comboTimer=0;
+let clouds=[], bgTrees=[], bgMountains=[];
+
+const P={x:0,y:0,w:38,h:50,vy:0,onGround:false,jumpsLeft:2,
+  invincible:false,invTimer:0,runT:0,squish:1,squishV:0};
+
+/* ══════════════════════════════════════════
+   PARALLAX
+══════════════════════════════════════════ */
+function initParallax(){
+  clouds=[];bgTrees=[];bgMountains=[];
+  for(let i=0;i<8;i++) clouds.push({x:i*240+Math.random()*80,y:H*.08+Math.random()*H*.22,w:80+Math.random()*80,h:28+Math.random()*22,spd:.2+Math.random()*.25});
+  for(let i=0;i<16;i++) bgTrees.push({x:i*130+Math.random()*55,h:38+Math.random()*55,w:11+Math.random()*9});
+  for(let i=0;i<9;i++) bgMountains.push({x:i*200+Math.random()*80,h:55+Math.random()*110,w:130+Math.random()*90});
+}
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function rr(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+function ell(x,y,rx,ry){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);}
+
+/* ══════════════════════════════════════════
+   BACKGROUND
+══════════════════════════════════════════ */
+function drawBackground(){
+  const st=STAGES[currentStage];
+  // Sky
+  const g=ctx.createLinearGradient(0,0,0,GY);
+  g.addColorStop(0,st.skyTop); g.addColorStop(1,st.skyBot);
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,GY);
+
+  // Stars overlay for dark stages
+  if(st.id>=2){
+    ctx.fillStyle='rgba(255,255,255,.55)';
+    for(let i=0;i<80;i++){
+      const sx=((i*137+bgOffset*.015)%(W+10));
+      const sy=(i*73)%(GY*.65);
+      const ss=(i%5===0)?1.5:.8;
+      ctx.fillRect(sx,sy,ss,ss);
+    }
+  }
+
+  // Sun / Moon
+  if(st.id===1||st.id===4){
+    const sx=W*.83,sy=H*.11;
+    const glow=ctx.createRadialGradient(sx,sy,8,sx,sy,65);
+    glow.addColorStop(0,'rgba(255,240,80,.35)');glow.addColorStop(1,'rgba(255,240,80,0)');
+    ctx.fillStyle=glow;ctx.beginPath();ctx.arc(sx,sy,65,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ffe135';ctx.beginPath();ctx.arc(sx,sy,22,0,Math.PI*2);ctx.fill();
+    // Rays
+    ctx.strokeStyle='rgba(255,225,50,.25)';ctx.lineWidth=1.5;
+    for(let r=0;r<8;r++){
+      const a=r*Math.PI/4+frame*.008;
+      ctx.beginPath();ctx.moveTo(sx+Math.cos(a)*26,sy+Math.sin(a)*26);
+      ctx.lineTo(sx+Math.cos(a)*42,sy+Math.sin(a)*42);ctx.stroke();
+    }
+  } else {
+    const mx=W*.85,my=H*.09;
+    const mg=ctx.createRadialGradient(mx,my,0,mx,my,28);
+    mg.addColorStop(0,'rgba(200,220,255,.85)');mg.addColorStop(1,'rgba(200,220,255,.05)');
+    ctx.fillStyle=mg;ctx.beginPath();ctx.arc(mx,my,28,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=st.skyTop;ctx.beginPath();ctx.arc(mx+8,my-5,18,0,Math.PI*2);ctx.fill();
+  }
+
+  // Clouds
+  clouds.forEach(c=>{
+    c.x -= c.spd*(speed/5);
+    if(c.x+c.w<0) c.x=W+60;
+    ctx.save();ctx.globalAlpha=st.id>=2?.2:.82;
+    ctx.fillStyle='rgba(255,255,255,.9)';
+    ell(c.x+c.w*.3,c.y+c.h*.6,c.w*.6,c.h*.48);ctx.fill();
+    ell(c.x+c.w*.6,c.y+c.h*.5,c.w*.52,c.h*.5);ctx.fill();
+    ell(c.x+c.w*.45,c.y+c.h*.28,c.w*.4,c.h*.58);ctx.fill();
+    ctx.restore();
+  });
+
+  // Mountains
+  bgMountains.forEach(m=>{
+    const mx=((m.x-bgOffset*.05)%(W+380))-130;
+    const mc=st.id===1?'#3d6b4f':st.id===2?'#1a237e':st.id===3?'#4a0080':st.id===4?'#7a1500':'#0a2255';
+    ctx.fillStyle=mc; ctx.globalAlpha=.42;
+    ctx.beginPath();ctx.moveTo(mx,GY);ctx.lineTo(mx+m.w/2,GY-m.h);ctx.lineTo(mx+m.w,GY);ctx.fill();
+    // snow cap on daylight stages
+    if(st.id===1||st.id===4){
+      ctx.fillStyle='rgba(255,255,255,.35)';
+      ctx.beginPath();ctx.moveTo(mx+m.w/2,GY-m.h);
+      ctx.lineTo(mx+m.w*.38,GY-m.h+m.h*.22);ctx.lineTo(mx+m.w*.62,GY-m.h+m.h*.22);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  });
+
+  // Trees / buildings
+  bgTrees.forEach(t=>{
+    const tx=((t.x-bgOffset*.16)%(W+220))-90;
+    if(st.id<=2){
+      ctx.fillStyle=st.id===1?'#1e5c2a':'#1a3575';
+      ctx.globalAlpha=.48;
+      ctx.beginPath();ctx.moveTo(tx,GY);ctx.lineTo(tx+t.w/2,GY-t.h);ctx.lineTo(tx+t.w,GY);ctx.fill();
+      if(st.id===1){// trunk
+        ctx.fillStyle='#4a2e1a';ctx.globalAlpha=.5;
+        ctx.fillRect(tx+t.w*.35,GY-14,t.w*.3,14);
+      }
+      ctx.globalAlpha=1;
+    } else {
+      // city buildings
+      ctx.fillStyle='rgba(20,10,50,.65)';
+      const bh=28+t.h*.7,bw=t.w+10;
+      ctx.fillRect(tx,GY-bh,bw,bh);
+      // windows
+      ctx.fillStyle='rgba(255,230,80,.28)';
+      for(let r=0;r<4;r++) for(let c=0;c<2;c++)
+        if(Math.random()>.3)ctx.fillRect(tx+3+c*7,GY-bh+4+r*9,5,6);
+      ctx.globalAlpha=1;
+    }
+  });
+
+  // Ground
+  const gg=ctx.createLinearGradient(0,GY,0,H);
+  gg.addColorStop(0,st.groundColor);gg.addColorStop(1,'#000');
+  ctx.fillStyle=gg;ctx.fillRect(0,GY,W,H-GY);
+  ctx.fillStyle=st.groundTop;ctx.fillRect(0,GY,W,14*Math.max(SCALE,.7));
+  ctx.fillStyle='rgba(255,255,255,.14)';ctx.fillRect(0,GY,W,4*Math.max(SCALE,.7));
+  // ground detail (grass strokes / tiles)
+  if(st.id<=2){
+    ctx.fillStyle='rgba(255,255,255,.08)';
+    for(let i=0;i<30;i++){
+      const gx=((i*97+bgOffset*.5)%(W+30));
+      ctx.fillRect(gx,GY+2,3,8);
+    }
+  }
+
+  // Progress bar
+  const pct=stageProgress/STAGES[currentStage].stageLen;
+  ctx.fillStyle='rgba(255,255,255,.06)';ctx.fillRect(0,H-7,W,7);
+  const pg=ctx.createLinearGradient(0,0,W*Math.min(pct,1),0);
+  pg.addColorStop(0,st.musicColor);pg.addColorStop(1,'rgba(255,255,255,.9)');
+  ctx.fillStyle=pg;ctx.fillRect(0,H-7,W*Math.min(pct,1),7);
+  // progress label
+  ctx.fillStyle='rgba(255,255,255,.35)';
+  ctx.font=`${Math.max(7,8*SCALE)}px 'Press Start 2P'`;
+  ctx.textAlign='right';ctx.textBaseline='bottom';
+  ctx.fillText(`${Math.min(Math.floor(pct*100),100)}%`,W-8,H-10);
+}
+
+/* ══════════════════════════════════════════
+   DRAW OBSTACLE
+══════════════════════════════════════════ */
+function drawObstacle(ob){
+  ctx.save();
+  ctx.translate(ob.x+ob.w/2,ob.y+ob.h/2);
+  if(ob.rot!==undefined)ctx.rotate(ob.rot+(ob.rotSpd||0)*frame);
+  ctx.translate(-ob.w/2,-ob.h/2);
+  const W2=ob.w,H2=ob.h;
+
+  if(ob.type==='rock'){
+    ctx.fillStyle='#607d8b';rr(0,0,W2,H2,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.18)';rr(4,4,W2-14,H2/3,4);ctx.fill();
+    ctx.strokeStyle='#455a64';ctx.lineWidth=1.5;rr(0,0,W2,H2,7);ctx.stroke();
+    ctx.fillStyle='#78909c';ctx.fillRect(W2*.28,H2*.2,5,H2*.32);
+    ctx.fillRect(W2*.55,H2*.35,4,H2*.22);
+  } else if(ob.type==='puddle'){
+    const wg=ctx.createLinearGradient(0,H2*.2,0,H2);
+    wg.addColorStop(0,'rgba(56,189,248,.5)');wg.addColorStop(1,'rgba(33,150,243,.2)');
+    ctx.fillStyle=wg;ell(W2/2,H2*.58,W2*.5,H2*.38);ctx.fill();
+    ctx.strokeStyle='rgba(56,189,248,.7)';ctx.lineWidth=1.5;ell(W2/2,H2*.58,W2*.5,H2*.38);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.3)';ell(W2*.32,H2*.42,W2*.12,H2*.1);ctx.fill();
+  } else if(ob.type==='eraser'){
+    ctx.fillStyle='#ef9a9a';rr(0,0,W2,H2,5);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.28)';ctx.fillRect(2,2,W2-4,H2*.32);
+    ctx.fillStyle='#e53935';ctx.font=`bold ${H2*.38}px sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('✕',W2/2,H2*.65);
+    ctx.strokeStyle='#c62828';ctx.lineWidth=1;rr(0,0,W2,H2,5);ctx.stroke();
+  } else if(ob.type==='paper'){
+    ctx.fillStyle='#fafafa';rr(0,0,W2,H2,4);ctx.fill();
+    ctx.strokeStyle='#ddd';ctx.lineWidth=.7;
+    for(let l=1;l<5;l++){ctx.beginPath();ctx.moveTo(5,l*H2/5.5);ctx.lineTo(W2-5,l*H2/5.5);ctx.stroke();}
+    ctx.fillStyle='#e53935';ctx.font=`bold ${H2*.3}px 'Press Start 2P'`;
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('F',W2/2,H2*.6);
+    ctx.strokeStyle='#bbb';ctx.lineWidth=1;rr(0,0,W2,H2,4);ctx.stroke();
+  } else if(ob.type==='bug'){
+    ctx.fillStyle='#c62828';ell(W2/2,H2*.52,W2*.42,H2*.38);ctx.fill();
+    ctx.fillStyle='#b71c1c';ell(W2/2,H2*.3,W2*.24,H2*.24);ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.6)';ctx.lineWidth=1.2;
+    for(let i=0;i<3;i++){
+      ctx.beginPath();ctx.moveTo(W2*.16,H2*.42+i*H2*.11);ctx.lineTo(-W2*.12,H2*.38+i*H2*.11-i*3);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(W2*.84,H2*.42+i*H2*.11);ctx.lineTo(W2*1.12,H2*.38+i*H2*.11-i*3);ctx.stroke();
+    }
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(W2*.36,H2*.27,3.5,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(W2*.64,H2*.27,3.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#c62828';ctx.beginPath();ctx.arc(W2*.36,H2*.27,2,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(W2*.64,H2*.27,2,0,Math.PI*2);ctx.fill();
+  } else if(ob.type==='deadline'){
+    ctx.fillStyle='#e65100';rr(0,0,W2,H2,6);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.2)';rr(3,3,W2-6,H2*.26,4);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font=`${H2*.18}px 'Press Start 2P'`;
+    ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText('DUE',W2/2,H2*.08);
+    ctx.font=`${H2*.25}px 'Press Start 2P'`;ctx.fillText('NOW!',W2/2,H2*.38);
+    ctx.strokeStyle='#ff6d00';ctx.lineWidth=1.5;rr(0,0,W2,H2,6);ctx.stroke();
+  } else if(ob.type==='block'){
+    ctx.fillStyle='#4a148c';rr(0,0,W2,H2,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.18)';rr(4,4,W2-8,H2*.38,4);ctx.fill();
+    ctx.fillStyle='rgba(200,100,255,.3)';ctx.fillRect(4,H2*.42,W2-8,2);
+    ctx.fillStyle='#fff';ctx.font=`${H2*.28}px 'Press Start 2P'`;
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('...',W2/2,H2*.62);
+  } else if(ob.type==='revision'){
+    ctx.fillStyle='#0a3d7a';rr(0,0,W2,H2,6);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.18)';rr(3,3,W2-6,H2*.26,4);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font=`${H2*.18}px 'Press Start 2P'`;
+    ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText('REV',W2/2,H2*.09);
+    ctx.font=`${H2*.14}px 'Press Start 2P'`;ctx.fillText('#99',W2/2,H2*.4);
+    ctx.fillStyle='#f87171';ctx.font=`${H2*.12}px 'Press Start 2P'`;ctx.fillText('CHANGE',W2/2,H2*.58);
+    ctx.fillStyle='rgba(255,255,255,.1)';rr(3,3,W2-6,H2*.26,3);ctx.fill();
+  }
+  ctx.restore();
+  // Drop shadow
+  ctx.fillStyle='rgba(0,0,0,.16)';ell(ob.x+ob.w/2,GY+5,ob.w*.44,5);ctx.fill();
+}
+
+/* ══════════════════════════════════════════
+   MILESTONE STAR
+══════════════════════════════════════════ */
+function drawStar(s){
+  if(s.collected)return;
+  const bob=Math.sin(frame*.07+s.phase)*7;
+  const sx=s.x, sy=s.y+bob;
+  const aura=.6+.4*Math.sin(frame*.05);
+  const g=ctx.createRadialGradient(sx,sy,5,sx,sy,38);
+  g.addColorStop(0,`rgba(251,191,36,${aura*.8})`);g.addColorStop(1,'rgba(251,191,36,0)');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,38,0,Math.PI*2);ctx.fill();
+  // outer ring pulse
+  ctx.strokeStyle=`rgba(251,191,36,${aura*.4})`;ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(sx,sy,s.r+10+aura*8,0,Math.PI*2);ctx.stroke();
+  // star
+  ctx.save();ctx.translate(sx,sy);ctx.rotate(frame*.035);
+  ctx.fillStyle='#fbbf24';starPath(0,0,s.r,s.r*.42,5);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.55)';starPath(0,0,s.r*.48,s.r*.2,5);ctx.fill();
+  ctx.restore();
+  // label
+  ctx.fillStyle='rgba(255,255,255,.95)';
+  ctx.font=`${Math.max(7,8.5*SCALE)}px 'Press Start 2P'`;
+  ctx.textAlign='center';ctx.textBaseline='top';
+  ctx.fillText('★ MILESTONE ★',sx,sy+s.r+10);
+  // shadow
+  ctx.fillStyle='rgba(0,0,0,.15)';ell(sx,GY+5,s.r*.65,5.5);ctx.fill();
+}
+
+function starPath(cx,cy,r1,r2,pts){
+  ctx.beginPath();
+  for(let i=0;i<pts*2;i++){
+    const a=i*Math.PI/pts-Math.PI/2;
+    const r=i%2===0?r1:r2;
+    i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+  }
+  ctx.closePath();
+}
+
+/* ══════════════════════════════════════════
+   COIN
+══════════════════════════════════════════ */
+function drawCoin(c){
+  if(c.collected)return;
+  const bob=Math.sin(frame*.1+c.phase)*3;
+  ctx.save();ctx.translate(c.x,c.y+bob);
+  const scX=Math.abs(Math.sin(frame*.08+c.phase));
+  ctx.scale(scX,1);
+  const cg=ctx.createRadialGradient(0,0,0,0,0,c.r);
+  cg.addColorStop(0,'#ffe066');cg.addColorStop(1,'#f59e0b');
+  ctx.fillStyle=cg;ctx.beginPath();ctx.arc(0,0,c.r,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.45)';ctx.beginPath();ctx.arc(-c.r*.2,-c.r*.22,c.r*.38,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+
+/* ══════════════════════════════════════════
+   PLAYER
+══════════════════════════════════════════ */
+function drawPlayer(){
+  const px=P.x,py=P.y;
+  const sq=P.squish;
+  const runPhase=Math.sin(P.runT*.28);
+  if(P.invincible&&Math.floor(frame/4)%2===0)return;
+  ctx.save();
+  ctx.translate(px+P.w/2,py+P.h/2);
+  ctx.scale(1/sq,sq);ctx.translate(-P.w/2,-P.h/2);
+  const pw=P.w,ph=P.h;
+
+  // Shadow
+  ctx.restore();ctx.save();
+  ctx.fillStyle=`rgba(0,0,0,${P.onGround?.22:.1})`;
+  const shw=P.onGround?pw*.85:pw*.5;
+  ell(px+pw/2,GY+6,shw,6);ctx.fill();
+  ctx.restore();ctx.save();
+  ctx.translate(px+pw/2,py+ph/2);
+  ctx.scale(1/sq,sq);ctx.translate(-pw/2,-ph/2);
+
+  // Legs
+  const ls=P.onGround?runPhase*11:0;
+  ctx.fillStyle='#1565c0';
+  ctx.fillRect(3,ph-20+ls,pw/2-4,16);
+  ctx.fillRect(pw/2,ph-20-ls,pw/2-3,16);
+  ctx.fillStyle='#3e2723';
+  ctx.fillRect(1,ph-7+ls,pw/2-2,10);
+  ctx.fillRect(pw/2-2,ph-7-ls,pw/2+1,10);
+
+  // Body
+  ctx.fillStyle='#e53935';rr(3,ph*.28,pw-6,ph*.42,6);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(5,ph*.3,pw-10,5);
+  // Name badge
+  ctx.fillStyle='#38bdf8';rr(pw*.2,ph*.36,pw*.6,ph*.14,3);ctx.fill();
+  ctx.fillStyle='#0a0a1f';ctx.font=`bold ${ph*.09}px 'Press Start 2P'`;
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('IAN',pw/2,ph*.43);
+
+  // Arms
+  ctx.fillStyle='#FFCC80';
+  const as=P.onGround?runPhase*8:P.vy>0?-8:8;
+  ctx.fillRect(-5,ph*.33+as,8,16);ctx.fillRect(pw-3,ph*.33-as,8,16);
+
+  // Head
+  ctx.fillStyle='#FFCC80';rr(5,3,pw-10,ph*.33,8);ctx.fill();
+  ctx.beginPath();ctx.arc(5,ph*.2,5.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(pw-5,ph*.2,5.5,0,Math.PI*2);ctx.fill();
+
+  // Hair
+  ctx.fillStyle='#111';
+  ctx.fillRect(5,3,pw-10,9);
+  ctx.beginPath();ctx.arc(5,8,5.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(pw-5,8,5.5,0,Math.PI*2);ctx.fill();
+  // hair highlight
+  ctx.fillStyle='rgba(80,60,0,.3)';ctx.fillRect(10,3,6,5);
+
+  // Eyes (blink occasionally)
+  const blink=(frame%160>155);
+  ctx.fillStyle='#212121';
+  if(!blink){ctx.fillRect(9,14,6,7);ctx.fillRect(pw-15,14,6,7);}
+  else{ctx.fillRect(9,18,6,2);ctx.fillRect(pw-15,18,6,2);}
+  ctx.fillStyle='#fff';if(!blink){ctx.fillRect(10,15,2,2);ctx.fillRect(pw-14,15,2,2);}
+
+  // Smile
+  ctx.strokeStyle='#c0735a';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(pw/2,ph*.3,4.5,0,Math.PI);ctx.stroke();
+
+  // Invincibility glow
+  if(P.invincible){
+    ctx.strokeStyle=`rgba(56,189,248,${.4+.4*Math.sin(frame*.3)})`;
+    ctx.lineWidth=3;ctx.beginPath();ctx.arc(pw/2,ph/2,pw*.72,0,Math.PI*2);ctx.stroke();
+  }
+  ctx.restore();
+
+  // Double jump indicator
+  if(!P.onGround&&P.jumpsLeft>0){
+    ctx.fillStyle='rgba(56,189,248,.55)';
+    ctx.beginPath();ctx.arc(px+pw/2,py-12,5,0,Math.PI*2);ctx.fill();
+  }
+}
+
+/* ══════════════════════════════════════════
+   PARTICLES & FLOAT TEXTS
+══════════════════════════════════════════ */
+function drawParticles(){
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.x+=p.vx;p.y+=p.vy;p.vy+=.2;p.life--;p.alpha=p.life/p.maxLife;
+    if(p.life<=0){particles.splice(i,1);continue;}
+    ctx.save();ctx.globalAlpha=p.alpha;
+    ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
+}
+function drawFloatTexts(){
+  for(let i=floatTexts.length-1;i>=0;i--){
+    const t=floatTexts[i];
+    t.y-=1.6;t.life--;t.alpha=t.life/t.maxLife;
+    if(t.life<=0){floatTexts.splice(i,1);continue;}
+    ctx.save();ctx.globalAlpha=t.alpha;
+    ctx.font=`${t.size}px 'Press Start 2P'`;
+    ctx.fillStyle=t.color;ctx.strokeStyle='rgba(0,0,0,.8)';ctx.lineWidth=3;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.strokeText(t.text,t.x,t.y);ctx.fillText(t.text,t.x,t.y);
+    ctx.restore();
+  }
+}
+
+/* ══════════════════════════════════════════
+   EFFECTS
+══════════════════════════════════════════ */
+function burst(x,y,color,count=14){
+  for(let i=0;i<count;i++){
+    const a=Math.random()*Math.PI*2,s=2+Math.random()*7;
+    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,sz:3+Math.random()*5,
+      color,life:28+Math.random()*22,maxLife:50,alpha:1});
+  }
+}
+function goldBurst(x,y){
+  for(let i=0;i<22;i++){
+    const a=i/22*Math.PI*2,s=3+Math.random()*8;
+    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,sz:4+Math.random()*6,
+      color:i%3===0?'#fde68a':'#fbbf24',life:35+Math.random()*25,maxLife:60,alpha:1});
+  }
+}
+function floatTxt(x,y,text,color='#fbbf24',size=14){
+  floatTexts.push({x,y,text,color,size,life:48,maxLife:48,alpha:1});
+}
+function flashScreen(color){
+  const el=document.getElementById('screen-flash');
+  el.style.background=color;el.style.opacity='1';
+  setTimeout(()=>el.style.opacity='0',130);
+}
+
+/* ══════════════════════════════════════════
+   SPAWN
+══════════════════════════════════════════ */
+function spawnObstacle(){
+  const st=STAGES[currentStage];
+  const type=st.obstacles[Math.floor(Math.random()*st.obstacles.length)];
+  let w=42,h=48;
+  if(type==='puddle'){w=76;h=24;}
+  else if(type==='paper'){w=36;h=54;}
+  else if(type==='bug'){w=44;h=44;}
+  w*=Math.max(SCALE,.76);h*=Math.max(SCALE,.76);
+  if(type!=='puddle'&&Math.random()<.32) h*=1.55;
+  obstacles.push({x:W+w,y:GY-h,w,h,type,
+    rot:type==='eraser'?(Math.random()*.4-.2):0,
+    rotSpd:type==='paper'?Math.random()*.004-.002:0});
+}
+
+function spawnMilestone(){
+  const r=25*Math.max(SCALE,.76);
+  stars.push({x:W+r*2,y:GY-r-90-Math.random()*70,r,phase:Math.random()*Math.PI*2,collected:false});
+  milestoneVisible=true;
+  document.getElementById('milestone-arrow').style.display='block';
+  document.getElementById('milestone-badge').style.display='block';
+}
+
+function spawnCoin(){
+  const r=9*Math.max(SCALE,.76);
+  coins.push({x:W+r,y:GY-r-28-Math.random()*(H*.28),r,phase:Math.random()*Math.PI*2,collected:false});
+}
+
+/* ══════════════════════════════════════════
+   LOGIC
+══════════════════════════════════════════ */
+function updatePlayer(){
+  P.vy+=.53; P.y+=P.vy;
+  if(P.y+P.h>=GY){
+    if(P.vy>6){P.squish=1.55;P.squishV=-.09;}
+    P.y=GY-P.h;P.vy=0;P.onGround=true;P.jumpsLeft=2;
+  } else P.onGround=false;
+  if(P.onGround) P.runT+=speed*.55;
+  P.squish+=P.squishV;P.squishV+=(1-P.squish)*.3;P.squishV*=.68;
+  if(P.invincible){P.invTimer--;if(P.invTimer<=0)P.invincible=false;}
+}
+
+function jump(){
+  if(!gameRunning||gameState!=='playing')return;
+  if(P.jumpsLeft>0){
+    P.vy=P.jumpsLeft===2?-14.8:-11.8;
+    P.jumpsLeft--;P.onGround=false;
+    P.squish=0.68;P.squishV=.07;
+    burst(P.x+P.w/2,P.y+P.h,'rgba(255,255,255,.3)',4);
+  }
+}
+
+function checkCollisions(){
+  // Obstacles
+  for(let i=obstacles.length-1;i>=0;i--){
+    const ob=obstacles[i];
+    if(P.x+P.w-9>ob.x+6&&P.x+9<ob.x+ob.w-6&&
+       P.y+P.h-7>ob.y+6&&P.y+7<ob.y+ob.h-6&&!P.invincible){
+      lives--;comboCount=0;
+      updateHUD(true);
+      P.invincible=true;P.invTimer=160;
+      P.squish=1.75;P.squishV=-.1;
+      burst(P.x+P.w/2,P.y+P.h/2,'#ef4444',14);
+      flashScreen('rgba(255,0,0,.2)');
+      floatTxt(P.x+P.w/2,P.y,'-1 LIFE','#ef4444',13);
+      if(lives<=0){endGame(false);return;}
+    }
+  }
+
+  // Milestone stars
+  for(let i=0;i<stars.length;i++){
+    const s=stars[i]; if(s.collected) continue;
+    const dx=s.x-(P.x+P.w/2),dy=s.y-(P.y+P.h/2);
+    if(Math.hypot(dx,dy)<s.r+Math.min(P.w,P.h)*.52){
+      s.collected=true;
+      milestoneCollected=true;
+      milestoneVisible=false;
+      document.getElementById('milestone-arrow').style.display='none';
+      document.getElementById('milestone-badge').style.display='none';
+      goldBurst(s.x,s.y);
+      floatTxt(s.x,s.y,'★ MILESTONE! ★','#fbbf24',14);
+      flashScreen('rgba(251,191,36,.2)');
+      showMilestone();
+    }
+  }
+
+  // Coins
+  for(let i=0;i<coins.length;i++){
+    const c=coins[i]; if(c.collected) continue;
+    const dx=c.x-(P.x+P.w/2),dy=c.y-(P.y+P.h/2);
+    if(Math.hypot(dx,dy)<c.r+Math.min(P.w,P.h)*.45){
+      c.collected=true;
+      coinCount++;
+      comboCount++;
+      comboTimer=90;
+      burst(c.x,c.y,'#fbbf24',6);
+      if(comboCount>=3) floatTxt(c.x,c.y,`x${comboCount} COMBO!`,'#fbbf24',11);
+      else floatTxt(c.x,c.y,'+10','#fbbf24',11);
+    }
+  }
+  if(comboTimer>0){comboTimer--;if(comboTimer<=0)comboCount=0;}
+}
+
+/* ══════════════════════════════════════════
+   HUD
+══════════════════════════════════════════ */
+function updateHUD(lostLife=false){
+  const sc=Math.floor(distance/8)+totalMilestones*750+coinCount*10+comboCount*5;
+  score=sc;
+  document.getElementById('hud-score').textContent=String(sc).padStart(6,'0');
+  document.getElementById('hud-stage').textContent=`${currentStage+1}/5`;
+  document.getElementById('hud-stars').textContent=`${totalMilestones}/5`;
+  const hh=document.getElementById('hud-hearts');
+  const hearts=hh.querySelectorAll('.heart');
+  if(hearts.length===3){
+    for(let i=0;i<3;i++){
+      hearts[i].classList.toggle('lost',i>=lives);
+      if(lostLife&&i===lives){hearts[i].classList.add('shake');setTimeout(()=>hearts[i].classList.remove('shake'),400);}
+    }
+  } else {
+    hh.innerHTML='';
+    for(let i=0;i<3;i++){
+      const h=document.createElement('span');
+      h.className='heart'+(i>=lives?' lost':'');
+      h.textContent='❤';hh.appendChild(h);
+    }
+  }
+  const dots=document.getElementById('stage-dots');
+  dots.innerHTML='';
+  for(let i=0;i<5;i++){
+    const d=document.createElement('div');
+    d.className='sdot'+(i<currentStage?' done':i===currentStage?' active':'');
+    dots.appendChild(d);
+  }
+}
+
+/* ══════════════════════════════════════════
+   MILESTONE POPUP
+══════════════════════════════════════════ */
+function showMilestone(){
+  if(milestonesGot[currentStage])return;
+  milestonesGot[currentStage]=true;
+  totalMilestones++;
+  gameState='milestone';
+  const ms=STAGES[currentStage].milestone;
+  document.getElementById('mp-icon').textContent=ms.icon;
+  document.getElementById('mp-title').textContent=ms.title;
+  document.getElementById('mp-body').textContent=ms.body;
+  document.getElementById('mp-tags').innerHTML=ms.tags.map(t=>`<span class="mp-tag">${t}</span>`).join('');
+  document.getElementById('mp-count').textContent=`${totalMilestones} of 5 milestones collected`;
+  document.getElementById('milestone-popup').style.display='flex';
+}
+function dismissMilestone(){
+  document.getElementById('milestone-popup').style.display='none';
+  gameState='playing';
+}
+
+/* ══════════════════════════════════════════
+   STAGE INTRO
+══════════════════════════════════════════ */
+function showStageIntro(){
+  gameState='intro';
+  const st=STAGES[currentStage];
+  document.getElementById('si-num').textContent=`STAGE ${st.id} OF 5`;
+  document.getElementById('si-icon').textContent=st.icon;
+  document.getElementById('si-title').textContent=st.name;
+  document.getElementById('si-desc').textContent=st.desc;
+  document.getElementById('si-obs').textContent=st.obs;
+  document.getElementById('si-tip').textContent=st.tip;
+  document.getElementById('si-skills').innerHTML=st.skills.map(s=>`<span class="si-skill">${s}</span>`).join('');
+  const box=document.getElementById('stage-intro').querySelector('.si-box');
+  box.style.animation='none';void box.offsetWidth;box.style.animation='popIn .45s cubic-bezier(.34,1.56,.64,1)';
+  document.getElementById('stage-intro').style.display='flex';
+}
+function dismissIntro(){
+  document.getElementById('stage-intro').style.display='none';
+  gameState='playing';
+}
+
+/* ══════════════════════════════════════════
+   STAGE TRANSITION
+══════════════════════════════════════════ */
+function nextStage(){
+  if(currentStage>=4){endGame(true);return;}
+  gameState='stageclear';
+  const stScore=Math.floor(distance/8)+totalMilestones*750+coinCount*10;
+  const banner=document.getElementById('stage-clear-banner');
+  document.getElementById('scb-title').textContent=`STAGE ${currentStage+1} CLEAR! ★`;
+  document.getElementById('scb-sub').textContent=STAGES[currentStage].name+' — conquered!';
+  document.getElementById('scb-score').textContent=`Score: ${stScore}`;
+  banner.classList.remove('hide');banner.classList.add('show');
+  flashScreen('rgba(56,189,248,.25)');
+  burst(W/2,H/2,'#38bdf8',18);
+  setTimeout(()=>{
+    banner.classList.add('hide');
+    setTimeout(()=>{
+      banner.classList.remove('show','hide');
+      currentStage++;
+      stageProgress=0;
+      obstacles=[];stars=[];coins=[];
+      milestonePlaced=false;milestoneCollected=false;
+      milestoneVisible=false;milestoneRespawnTimer=0;
+      document.getElementById('milestone-arrow').style.display='none';
+      document.getElementById('milestone-badge').style.display='none';
+      const st=STAGES[currentStage];
+      nextObs=st.obstacleGap;nextCoin=200;
+      showStageIntro();
+    },400);
+  },1900);
+}
+
+/* ══════════════════════════════════════════
+   MAIN LOOP
+══════════════════════════════════════════ */
+function loop(){
+  if(!gameRunning)return;
+  frame++;
+
+  if(gameState==='playing'){
+    distance++;
+    stageProgress++;
+    speed=4+distance/3000;
+    bgOffset+=speed;
+
+    const st=STAGES[currentStage];
+
+    // Obstacle spawn
+    nextObs-=speed;
+    if(nextObs<=0){
+      spawnObstacle();
+      const baseGap=st.obstacleGap-Math.min(distance/50,170);
+      nextObs=Math.max(baseGap,270)+Math.random()*190;
+    }
+
+    // ── MILESTONE STAR LOGIC ──
+    // Spawn the first star at milestoneAt
+    if(!milestonePlaced && stageProgress>=st.milestoneAt){
+      spawnMilestone();
+      milestonePlaced=true;
+    }
+    // If the star went off-screen WITHOUT being collected → queue a respawn
+    if(milestonePlaced && !milestoneCollected && milestoneVisible){
+      // Check if all stars are gone off-screen
+      const anyOnScreen=stars.some(s=>!s.collected&&s.x>-80);
+      if(!anyOnScreen){
+        milestoneVisible=false;
+        milestoneRespawnTimer=280; // ~4 seconds at 60fps
+        document.getElementById('milestone-arrow').style.display='none';
+        document.getElementById('milestone-badge').style.display='none';
+        floatTxt(W/2,GY-100,'MISSED! Star respawning...','#fbbf24',10);
+      }
+    }
+    // Countdown to respawn
+    if(milestonePlaced && !milestoneCollected && !milestoneVisible && milestoneRespawnTimer>0){
+      milestoneRespawnTimer--;
+      if(milestoneRespawnTimer===0) spawnMilestone();
+    }
+
+    // Coin spawn
+    nextCoin-=speed;
+    if(nextCoin<=0){spawnCoin();nextCoin=100+Math.random()*140;}
+
+    // Move objects
+    for(let i=obstacles.length-1;i>=0;i--){obstacles[i].x-=speed;if(obstacles[i].x<-130)obstacles.splice(i,1);}
+    for(let i=stars.length-1;i>=0;i--){stars[i].x-=speed*.65;if(stars[i].x<-90)stars.splice(i,1);}
+    for(let i=coins.length-1;i>=0;i--){coins[i].x-=speed;if(coins[i].x<-22)coins.splice(i,1);}
+
+    updatePlayer();
+    checkCollisions();
+    updateHUD();
+
+    if(stageProgress>=st.stageLen) nextStage();
+  }
+
+  // ── DRAW ──
+  ctx.clearRect(0,0,W,H);
+  drawBackground();
+  coins.forEach(drawCoin);
+  stars.forEach(drawStar);
+  obstacles.forEach(drawObstacle);
+  drawParticles();
+  drawFloatTexts();
+  drawPlayer();
+
+  // Stage name
+  if(gameState==='playing'||gameState==='milestone'){
+    ctx.fillStyle='rgba(255,255,255,.45)';
+    ctx.font=`${Math.max(8,10*SCALE)}px 'Press Start 2P'`;
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(STAGES[currentStage].icon+' '+STAGES[currentStage].name,W/2,16);
+  }
+
+  // Respawn countdown indicator
+  if(milestoneRespawnTimer>0&&gameState==='playing'){
+    const secs=Math.ceil(milestoneRespawnTimer/60);
+    ctx.fillStyle='rgba(251,191,36,.6)';
+    ctx.font=`${Math.max(7,8*SCALE)}px 'Press Start 2P'`;
+    ctx.textAlign='right';ctx.textBaseline='top';
+    ctx.fillText(`⭐ respawn in ${secs}s`,W-14,42);
+  }
+
+  raf=requestAnimationFrame(loop);
+}
+
+/* ══════════════════════════════════════════
+   START / END / MENU
+══════════════════════════════════════════ */
+function startGame(){
+  score=0;lives=100;frame=0;distance=0;speed=4;coinCount=0;comboCount=0;comboTimer=0;
+  currentStage=0;stageProgress=0;
+  milestonesGot=[false,false,false,false,false];
+  totalMilestones=0;milestonePlaced=false;
+  milestoneCollected=false;milestoneVisible=false;milestoneRespawnTimer=0;
+  obstacles=[];stars=[];coins=[];particles=[];floatTexts=[];
+  bgOffset=0;
+  const st=STAGES[0];
+  nextObs=st.obstacleGap;nextCoin=200;
+  gameState='intro';gameRunning=true;
+
+  resize();initParallax();
+  P.x=90;P.y=GY-P.h;P.vy=0;P.onGround=true;P.jumpsLeft=2;
+  P.invincible=false;P.invTimer=0;P.runT=0;P.squish=1;P.squishV=0;
+
+  document.getElementById('milestone-popup').style.display='none';
+  document.getElementById('pres-overlay').style.display='none';
+  document.getElementById('screen-flash').style.opacity='0';
+  document.getElementById('milestone-arrow').style.display='none';
+  document.getElementById('milestone-badge').style.display='none';
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('game-wrap').style.display='block';
+  document.getElementById('hud').style.display='flex';
+  updateHUD();
+  cancelAnimationFrame(raf);
+  loop();
+  showStageIntro();
+}
+
+function showStart(){
+  gameRunning=false;cancelAnimationFrame(raf);
+  gameState='idle';
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('game-wrap').style.display='none';
+  document.getElementById('hud').style.display='none';
+  document.getElementById('stage-intro').style.display='none';
+  document.getElementById('milestone-popup').style.display='none';
+  document.getElementById('milestone-arrow').style.display='none';
+  document.getElementById('milestone-badge').style.display='none';
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+
+function endGame(won){
+  gameRunning=false;cancelAnimationFrame(raf);
+  document.getElementById('milestone-arrow').style.display='none';
+  document.getElementById('milestone-badge').style.display='none';
+  setTimeout(()=>{
+    const finalScore=Math.floor(distance/8)+totalMilestones*750+coinCount*10;
+    document.getElementById('end-title').textContent=won?'🎉 JOURNEY COMPLETE!':'💀 KEEP GRINDING!';
+    document.getElementById('end-score-val').textContent=finalScore;
+    document.getElementById('end-dist-val').textContent=Math.floor(distance/10)+'m';
+    document.getElementById('end-ms-val').textContent=totalMilestones+'/5';
+    document.getElementById('end-stg-val').textContent=(currentStage+(won?1:0))+'/5';
+    document.getElementById('end-coins-val').textContent=coinCount;
+    document.getElementById('end-sub').textContent=won
+      ?'Incredible! Ian conquered all 5 chapters — from province kid to IT intern with a personal brand. The journey is real. 🌟'
+      :`Reached Stage ${currentStage+1}. Ian's journey is never over — every run is a lesson. Try again!`;
+    const sum=document.getElementById('unlocked-summary');
+    sum.innerHTML=STAGES.filter((_,i)=>milestonesGot[i])
+      .map(s=>`<div class="ul-chip">${s.icon} ${s.milestone.title}</div>`).join('');
+    if(won)flashScreen('rgba(56,189,248,.28)');
+    document.getElementById('stage-intro').style.display='none';
+    document.getElementById('milestone-popup').style.display='none';
+    document.getElementById('end-screen').classList.remove('hidden');
+  },650);
+}
+
+/* ══════════════════════════════════════════
+   PRESENTATION GUIDE
+══════════════════════════════════════════ */
+function showHowToPlay(){
+  document.getElementById('how-to-play-modal').style.display='flex';
+}
+function closeHowToPlay(){
+  document.getElementById('how-to-play-modal').style.display='none';
+}
+function showPresGuide(){
+  document.getElementById('pres-overlay').style.display='flex';
+}
+function closePresGuide(){
+  document.getElementById('pres-overlay').style.display='none';
+}
+
+// Close modals when clicking outside the box
+document.addEventListener('click',e=>{
+  if(e.target.id==='how-to-play-modal')closeHowToPlay();
+  if(e.target.id==='pres-overlay')closePresGuide();
+});
+
+/* ══════════════════════════════════════════
+   INPUT
+══════════════════════════════════════════ */
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump();}
+  if(e.code==='Enter'){
+    if(gameState==='intro')dismissIntro();
+    else if(gameState==='milestone')dismissMilestone();
+  }
+  if(e.code==='Escape'){
+    if(document.getElementById('pres-overlay').style.display==='flex')closePresGuide();
+    else if(document.getElementById('how-to-play-modal').style.display==='flex')closeHowToPlay();
+  }
+});
+
+document.addEventListener('touchstart',e=>{
+  if(document.getElementById('pres-overlay').style.display==='flex')return;
+  if(document.getElementById('how-to-play-modal').style.display==='flex')return;
+  if(e.target.closest('.si-btn,.mp-btn,.pres-badge,.start-btn,.how-to-play-btn,.end-btn,.pres-close,.htp-close'))return;
+  e.preventDefault();
+  if(gameState==='intro'){dismissIntro();return;}
+  if(gameState==='milestone'){dismissMilestone();return;}
+  jump();
+},{passive:false});
+
+canvas.addEventListener('mousedown',e=>{e.preventDefault();jump();});
+
+function handleJumpBtn(e){
+  e.preventDefault();
+  if(gameState==='intro'){dismissIntro();return;}
+  if(gameState==='milestone'){dismissMilestone();return;}
+  jump();
+}
+</script>
+</body>
+</html>
